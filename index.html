@@ -4,7 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Forecast</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #87CEEB; /* 天空蓝 */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .warning {
+            display: none;
+            width: 100%;
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .warning.active {
+            display: block;
+            animation: scrollText 10s linear infinite;
+        }
+
+        @keyframes scrollText {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .time {
+            margin: 20px;
+            font-size: 24px;
+        }
+
+        .weather-container {
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid white;
+            margin: 20px 0;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .weather-slider {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .weather-card {
+            min-width: 200px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            border-right: 1px solid white;
+        }
+
+        .weather-card:last-child {
+            border-right: none;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
     <div id="weather-warning" class="warning"></div>
@@ -17,12 +97,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const weatherSlider = document.getElementById('weather-slider');
-            const totalTimeElement = document.getElementById('total-time');
-            const weatherWarning = document.getElementById('weather-warning');
-            const warningMessage = "Severe weather alert: Thunderstorms expected!"; // Example warning
+            // 自定义时间
+            const totalTime = "7:00 AM"; // 可自由修改
+            document.getElementById('total-time').innerText = totalTime;
 
-            // Fetch data from weatherdata.txt
+            // 从 txt 文件中获取天气数据
+            const weatherSlider = document.getElementById('weather-slider');
             fetch('weatherdata.txt')
                 .then(response => response.text())
                 .then(data => {
@@ -41,11 +121,9 @@
                 })
                 .catch(error => console.error('Error loading weather data:', error));
 
-            // Set total time (for example purposes, use the current time)
-            const currentTime = new Date().toLocaleTimeString();
-            totalTimeElement.textContent = currentTime;
-
-            // Display warning if applicable
+            // 天气预警
+            const weatherWarning = document.getElementById('weather-warning');
+            const warningMessage = "Severe weather alert: Heavy Rain Expected!"; // 可自由修改
             if (warningMessage) {
                 weatherWarning.textContent = warningMessage;
                 weatherWarning.classList.add('active');
