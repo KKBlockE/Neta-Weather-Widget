@@ -11,48 +11,43 @@
     <div class="time">Total Time: <span id="total-time"></span></div>
     <div class="weather-container">
         <div id="weather-slider" class="weather-slider">
-            <!-- Weather cards will be inserted here by JavaScript -->
+            <!-- Weather cards will be dynamically inserted -->
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const weatherData = `
-                City1,25,Sunny
-                City2,18,Cloudy
-                City3,30,Hot
-                City4,20,Rainy
-                City5,22,Windy
-                City6,15,Snowy
-                City7,28,Sunny
-                City8,19,Cloudy
-                City9,33,Hot
-                City10,21,Rainy
-            `;
-
-            const warningMessage = "Severe weather alert: Thunderstorms expected!";
-
-            const totalTime = "12:00 PM";
-
-            document.getElementById('total-time').innerText = totalTime;
-
             const weatherSlider = document.getElementById('weather-slider');
-            const weatherArray = weatherData.trim().split('\n');
-            weatherArray.forEach(data => {
-                const [city, temp, type] = data.split(',');
-                const weatherCard = document.createElement('div');
-                weatherCard.classList.add('weather-card');
-                weatherCard.innerHTML = `
-                    <h3>${city}</h3>
-                    <p>${temp}°C</p>
-                    <p>${type}</p>
-                `;
-                weatherSlider.appendChild(weatherCard);
-            });
-
+            const totalTimeElement = document.getElementById('total-time');
             const weatherWarning = document.getElementById('weather-warning');
+            const warningMessage = "Severe weather alert: Thunderstorms expected!"; // Example warning
+
+            // Fetch data from weatherdata.txt
+            fetch('weatherdata.txt')
+                .then(response => response.text())
+                .then(data => {
+                    const weatherArray = data.trim().split('\n');
+                    weatherArray.forEach(line => {
+                        const [city, temp, type] = line.split(',');
+                        const weatherCard = document.createElement('div');
+                        weatherCard.classList.add('weather-card');
+                        weatherCard.innerHTML = `
+                            <h3>${city}</h3>
+                            <p>${temp}°C</p>
+                            <p>${type}</p>
+                        `;
+                        weatherSlider.appendChild(weatherCard);
+                    });
+                })
+                .catch(error => console.error('Error loading weather data:', error));
+
+            // Set total time (for example purposes, use the current time)
+            const currentTime = new Date().toLocaleTimeString();
+            totalTimeElement.textContent = currentTime;
+
+            // Display warning if applicable
             if (warningMessage) {
-                weatherWarning.innerText = warningMessage;
+                weatherWarning.textContent = warningMessage;
                 weatherWarning.classList.add('active');
             }
         });
