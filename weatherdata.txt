@@ -1,0 +1,10 @@
+City1,25,Sunny
+City2,18,Cloudy
+City3,30,Hot
+City4,20,Rainy
+City5,22,Windy
+City6,15,Snowy
+City7,28,Sunny
+City8,19,Cloudy
+City9,33,Hot
+City10,21,Rainy
