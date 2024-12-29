@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast</title>
+    <title>Mini Weather Widget</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,31 +12,40 @@
             background-color: #87CEEB; /* 天空蓝 */
             color: white;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            height: 100vh;
         }
 
-        .warning {
-            display: none;
-            width: 100%;
+        .widget {
+            width: 300px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .warning-bar {
             background-color: red;
             color: white;
-            text-align: center;
-            padding: 10px;
-            font-size: 18px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            font-size: 14px;
+            text-align: left;
+            padding: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
         }
 
-        .warning.active {
-            display: block;
+        .warning-bar span {
+            display: inline-block;
             animation: scrollText 10s linear infinite;
+            position: absolute;
+            left: 100%;
         }
 
         @keyframes scrollText {
             from {
-                transform: translateX(100%);
+                transform: translateX(0);
             }
             to {
                 transform: translateX(-100%);
@@ -44,18 +53,17 @@
         }
 
         .time {
-            margin: 20px;
-            font-size: 24px;
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
         .weather-container {
             overflow: hidden;
+            display: flex;
+            flex-wrap: nowrap;
             width: 100%;
-            max-width: 600px;
-            border: 2px solid white;
-            margin: 20px 0;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.2);
         }
 
         .weather-slider {
@@ -64,10 +72,11 @@
         }
 
         .weather-card {
-            min-width: 200px;
-            padding: 20px;
-            box-sizing: border-box;
+            flex: 0 0 100px;
             text-align: center;
+            padding: 10px 5px;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.2);
             border-right: 1px solid white;
         }
 
@@ -75,23 +84,27 @@
             border-right: none;
         }
 
-        h3 {
-            font-size: 20px;
-            margin: 0;
+        .weather-card h3 {
+            font-size: 14px;
+            margin: 5px 0;
         }
 
-        p {
-            font-size: 18px;
-            margin: 5px 0;
+        .weather-card p {
+            font-size: 12px;
+            margin: 2px 0;
         }
     </style>
 </head>
 <body>
-    <div id="weather-warning" class="warning"></div>
-    <div class="time">Total Time: <span id="total-time"></span></div>
-    <div class="weather-container">
-        <div id="weather-slider" class="weather-slider">
-            <!-- Weather cards will be dynamically inserted -->
+    <div class="widget">
+        <div class="warning-bar">
+            <span id="warning-message">Severe weather alert: Thunderstorms expected this evening!</span>
+        </div>
+        <div class="time">Total Time: <span id="total-time">7:00 AM</span></div>
+        <div class="weather-container">
+            <div id="weather-slider" class="weather-slider">
+                <!-- Weather cards will be dynamically inserted -->
+            </div>
         </div>
     </div>
 
@@ -99,7 +112,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             // 自定义时间
             const totalTime = "7:00 AM"; // 可自由修改
-            document.getElementById('total-time').innerText = totalTime;
+            document.getElementById('total-time').textContent = totalTime;
 
             // 从 txt 文件中获取天气数据
             const weatherSlider = document.getElementById('weather-slider');
@@ -122,12 +135,9 @@
                 .catch(error => console.error('Error loading weather data:', error));
 
             // 天气预警
-            const weatherWarning = document.getElementById('weather-warning');
-            const warningMessage = "Severe weather alert: Heavy Rain Expected!"; // 可自由修改
-            if (warningMessage) {
-                weatherWarning.textContent = warningMessage;
-                weatherWarning.classList.add('active');
-            }
+            const warningMessage = "Severe weather alert: Thunderstorms expected this evening!"; // 可自由修改
+            const warningElement = document.getElementById('warning-message');
+            warningElement.textContent = warningMessage;
         });
     </script>
 </body>
