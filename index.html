@@ -18,8 +18,8 @@
         }
 
         .widget {
-            width: 300px;
-            background-color: rgba(255, 255, 255, 0.2);
+            width: 320px;
+            background-color: rgba(255, 255, 255, 0.3);
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -29,8 +29,7 @@
             background-color: red;
             color: white;
             font-size: 14px;
-            text-align: left;
-            padding: 5px;
+            padding: 5px 10px;
             white-space: nowrap;
             overflow: hidden;
             position: relative;
@@ -39,13 +38,11 @@
         .warning-bar span {
             display: inline-block;
             animation: scrollText 10s linear infinite;
-            position: absolute;
-            left: 100%;
         }
 
         @keyframes scrollText {
             from {
-                transform: translateX(0);
+                transform: translateX(100%);
             }
             to {
                 transform: translateX(-100%);
@@ -56,7 +53,8 @@
             text-align: center;
             padding: 10px;
             font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
         .weather-container {
@@ -76,8 +74,8 @@
             text-align: center;
             padding: 10px 5px;
             box-sizing: border-box;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-right: 1px solid white;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .weather-card:last-child {
@@ -86,6 +84,7 @@
 
         .weather-card h3 {
             font-size: 14px;
+            font-weight: bold;
             margin: 5px 0;
         }
 
@@ -100,7 +99,7 @@
         <div class="warning-bar">
             <span id="warning-message">Severe weather alert: Thunderstorms expected this evening!</span>
         </div>
-        <div class="time">Total Time: <span id="total-time">7:00 AM</span></div>
+        <div class="time">Date & Time: <span id="date-time">7:00 AM, Dec 29</span></div>
         <div class="weather-container">
             <div id="weather-slider" class="weather-slider">
                 <!-- Weather cards will be dynamically inserted -->
@@ -110,9 +109,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 自定义时间
-            const totalTime = "7:00 AM"; // 可自由修改
-            document.getElementById('total-time').textContent = totalTime;
+            // 自定义时间和日期
+            const customDateTime = "7:00 AM, Dec 29"; // 可修改为任意日期和时间
+            document.getElementById('date-time').textContent = customDateTime;
 
             // 从 txt 文件中获取天气数据
             const weatherSlider = document.getElementById('weather-slider');
